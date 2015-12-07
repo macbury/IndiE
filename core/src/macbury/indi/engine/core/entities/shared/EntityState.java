@@ -8,5 +8,6 @@ public enum EntityState {
   Moving,
   Attack,
   Hurt,
-  Jumping
+  Jumping,
+  Immobile
 }

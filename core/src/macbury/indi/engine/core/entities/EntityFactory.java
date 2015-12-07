@@ -13,7 +13,7 @@ public class EntityFactory implements Disposable {
   private IndiE game;
 
   public EntityFactory(IndiE game, EntityManager entityManager) {
-    this.game = game;
+    this.game          = game;
     this.entityManager = entityManager;
   }
 

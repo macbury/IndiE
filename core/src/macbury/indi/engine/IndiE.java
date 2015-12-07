@@ -5,6 +5,7 @@ import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import macbury.indi.engine.core.Database;
 import macbury.indi.engine.core.assets.Assets;
+import macbury.indi.engine.core.input.InputManager;
 import macbury.indi.engine.core.screens.GamePlayScreen;
 import macbury.indi.engine.core.screens.ScreenManager;
 import sun.rmi.runtime.Log;
@@ -27,6 +28,10 @@ public class IndiE extends ApplicationAdapter {
    *  Loads and stores assets like textures, bitmapfonts, tile maps, sounds, music and so on.
    */
   public Assets assets;
+  /**
+   * Manages game inputs
+   */
+  public InputManager input;
 
   @Override
   public void create () {
@@ -35,8 +40,10 @@ public class IndiE extends ApplicationAdapter {
     this.screens = new ScreenManager(this);
     this.db      = new Database();
     this.assets  = new Assets();
+    this.input   = new InputManager();
 
     screens.set(new GamePlayScreen());
+    Gdx.input.setInputProcessor(input);
   }
 
 
