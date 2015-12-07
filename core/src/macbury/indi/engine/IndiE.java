@@ -1,5 +1,6 @@
 package macbury.indi.engine;
 
+import com.badlogic.gdx.Application;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import macbury.indi.engine.core.Database;
@@ -29,6 +30,7 @@ public class IndiE extends ApplicationAdapter {
 
   @Override
   public void create () {
+    Gdx.app.setLogLevel(Application.LOG_DEBUG);
     Gdx.app.log(TAG, "Init...");
     this.screens = new ScreenManager(this);
     this.db      = new Database();

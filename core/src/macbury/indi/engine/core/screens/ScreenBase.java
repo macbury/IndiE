@@ -1,5 +1,6 @@
 package macbury.indi.engine.core.screens;
 
+import com.badlogic.gdx.utils.Disposable;
 import macbury.indi.engine.IndiE;
 import macbury.indi.engine.core.assets.Assets;
 
@@ -9,7 +10,7 @@ import macbury.indi.engine.core.assets.Assets;
  * <p>
  * Note that {@link #dispose()} is not called automatically.
  * </p>*/
-public abstract class ScreenBase {
+public abstract class ScreenBase implements Disposable {
   private boolean initialized;
   protected IndiE game;
   protected Assets assets;
@@ -20,8 +21,8 @@ public abstract class ScreenBase {
    */
   public void link(IndiE game) {
     this.unlink();
-    this.game   = game;
-    this.assets = game.assets;
+    this.game     = game;
+    this.assets   = game.assets;
   }
 
   /**
@@ -66,8 +67,6 @@ public abstract class ScreenBase {
    */
   public abstract void hide ();
 
-  /** Called when this screen should release all resources like {@link Assets} */
-  public abstract void dispose ();
 
   public boolean isInitialized() {
     return initialized;

@@ -29,13 +29,15 @@ public class ScreenManager implements Disposable {
     if (this.currentScreen != null) {
       Gdx.app.log(TAG, "Hiding " + currentScreen.getClass().getSimpleName());
       this.currentScreen.hide();
-      this.currentScreen.unlink();
       if (this.currentScreen.isDisposedAfterHide()){
         Gdx.app.log(TAG, "Disposing " + currentScreen.getClass().getSimpleName());
         this.dispose();
       }
+      this.currentScreen.unlink();
     }
+
     this.currentScreen = nextScreen;
+
     if (this.currentScreen != null) {
       this.currentScreen.link(game);
 
