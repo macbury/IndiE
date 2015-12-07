@@ -15,4 +15,12 @@ public class Database implements Disposable {
   public void dispose() {
 
   }
+
+  /**
+   * Return tile size in pixels
+   * @return
+   */
+  public float getTileSize() {
+    return TILE_SIZE;
+  }
 }

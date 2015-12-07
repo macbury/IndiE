@@ -22,4 +22,12 @@ public class StateComponent implements Component, Pool.Poolable {
   public void reset() {
     setCurrentState(EntityState.Idle);
   }
+
+  public boolean isMoving() {
+    return currentState == EntityState.Moving;
+  }
+
+  public boolean isIdle() {
+    return currentState == EntityState.Idle;
+  }
 }

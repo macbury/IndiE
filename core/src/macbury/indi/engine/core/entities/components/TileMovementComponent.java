@@ -20,8 +20,29 @@ public class TileMovementComponent implements Component, Pool.Poolable {
     startPosition.setZero();
     finalPosition.setZero();
     direction = Direction.None;
-    alpha = 0;
+    alpha = 1.0f;
     speed = 0;
   }
 
+  public boolean finishedMoving() {
+    return alpha >= 1.0;
+  }
+
+  /**
+   * Adds alpha by gdx delta time. If alpha is more than 1.0 then clamp
+   * @param delta
+   */
+  public void addAlpha(float delta) {
+    this.alpha += delta * speed;
+    if (alpha > 1.0f) {
+      alpha = 1.0f;
+    }
+  }
+
+  /**
+   * Resets alpha to 0.0f
+   */
+  public void resetAlpha() {
+    alpha = 0.0f;
+  }
 }
