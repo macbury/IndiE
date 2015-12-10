@@ -3,6 +3,7 @@ package macbury.indie.core.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector3;
 import macbury.indie.core.entities.EntityManager;
 
@@ -16,7 +17,7 @@ public class GamePlayScreen extends ScreenBase {
 
   @Override
   public void preload() {
-    //assets.load("charsets:badlogic.jpg", Texture.class);
+    assets.load("charsets:debug_player.png", Texture.class);
   }
 
   @Override
@@ -66,6 +67,7 @@ public class GamePlayScreen extends ScreenBase {
 
   @Override
   public void dispose() {
+    assets.unload("charsets:debug_player.png");
     entities.dispose();
     camera = null;
   }

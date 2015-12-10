@@ -5,6 +5,7 @@ import com.badlogic.gdx.utils.Disposable;
 import macbury.indie.IndiE;
 import macbury.indie.core.entities.signals.PlayerMoveSignal;
 import macbury.indie.core.entities.systems.PlayerControllerSystem;
+import macbury.indie.core.entities.systems.RenderingSystem;
 import macbury.indie.core.entities.systems.TileMovementSystem;
 
 /**
@@ -16,6 +17,7 @@ public class EntityManager extends PooledEngine implements Disposable {
   private IndiE game;
   private PlayerControllerSystem playerControllerSystem;
   private TileMovementSystem tileMovementSystem;
+  private RenderingSystem renderingSystem;
 
   public EntityManager(IndiE game) {
     super();
@@ -32,6 +34,9 @@ public class EntityManager extends PooledEngine implements Disposable {
 
     this.playerControllerSystem = new PlayerControllerSystem(game);
     addSystem(playerControllerSystem);
+
+    this.renderingSystem        = new RenderingSystem(game);
+    addSystem(renderingSystem);
   }
 
   @Override
@@ -39,6 +44,10 @@ public class EntityManager extends PooledEngine implements Disposable {
     add.dispose();
     playerControllerSystem.dispose();
     tileMovementSystem.dispose();
+    renderingSystem.dispose();
+
+    playerControllerSystem = null;
+    renderingSystem    = null;
     tileMovementSystem = null;
     game = null;
     add  = null;

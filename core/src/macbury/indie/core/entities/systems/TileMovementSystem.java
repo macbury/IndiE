@@ -42,7 +42,9 @@ public class TileMovementSystem extends IteratingSystem implements Disposable {
     if (tileMovementComponent.finishedMoving()) {
       if (stateComponent.getMovementState() == MovementState.Moving) {
         stateComponent.setMovementState(MovementState.FinishMoving);
-      } else if (stateComponent.getMovementState() == MovementState.StartMoving) {
+      }
+
+      if (stateComponent.getMovementState() == MovementState.StartMoving) {
         tileMovementComponent.resetAlpha();
         tempVector.setZero().set(tileMovementComponent.direction.vector).scl(db.getTileSize()).add(positionComponent);
 

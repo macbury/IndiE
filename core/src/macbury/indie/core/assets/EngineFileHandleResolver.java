@@ -20,6 +20,7 @@ public class EngineFileHandleResolver implements FileHandleResolver {
 
   private void configureMappings() {
     putMapping("textures", "graphics/textures/");
+    putMapping("charsets", "graphics/textures/charsets/");
   }
 
   private String applyMapping(String path) {

@@ -9,8 +9,8 @@ public enum Direction {
   None(new Vector3()),
   Left(new Vector3(-1, 0, 0)),
   Right(new Vector3(1, 0, 0)),
-  Up(new Vector3(0, 0, -1)),
-  Down(new Vector3(0, 0, 1));
+  Up(new Vector3(0, 0, 1)),
+  Down(new Vector3(0, 0, -1));
 
   public final Vector3 vector;
   Direction(Vector3 direction) {

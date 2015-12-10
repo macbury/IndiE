@@ -1,13 +1,11 @@
 package macbury.indie.core.entities;
 
 import com.badlogic.ashley.core.Entity;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Disposable;
 import macbury.indie.IndiE;
-import macbury.indie.core.entities.components.ControllableComponent;
-import macbury.indie.core.entities.components.PositionComponent;
-import macbury.indie.core.entities.components.StateComponent;
-import macbury.indie.core.entities.components.TileMovementComponent;
+import macbury.indie.core.entities.components.*;
 import macbury.indie.core.entities.shared.Direction;
 
 /**
@@ -59,6 +57,17 @@ public class EntityFactory implements Disposable {
   }
 
   /**
+   * Creates state component helper
+   * @return
+   */
+  private CharacterAnimationComponent characterAnimation() {
+    CharacterAnimationComponent characterAnimationComponent = entityManager.createComponent(CharacterAnimationComponent.class);
+    characterAnimationComponent.reset();
+    characterAnimationComponent.setTexture(game.assets.get("charsets:debug_player.png", Texture.class));
+    return characterAnimationComponent;
+  }
+
+  /**
    * Creates tile movement component
    * @return
    */
@@ -78,8 +87,9 @@ public class EntityFactory implements Disposable {
     Entity entity = ce();
     entity.add(controllable());
     entity.add(position(spawnPosition));
-    entity.add(tileMovement(2, Direction.Down));
+    entity.add(tileMovement(4, Direction.Down));
     entity.add(state());
+    entity.add(characterAnimation());
     entityManager.addEntity(entity);
     return entity;
   }
