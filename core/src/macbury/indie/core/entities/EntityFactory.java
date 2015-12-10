@@ -67,6 +67,10 @@ public class EntityFactory implements Disposable {
     return characterAnimationComponent;
   }
 
+  private FollowCameraComponent followCamera() {
+    return entityManager.createComponent(FollowCameraComponent.class);
+  }
+
   /**
    * Creates tile movement component
    * @return
@@ -87,9 +91,10 @@ public class EntityFactory implements Disposable {
     Entity entity = ce();
     entity.add(controllable());
     entity.add(position(spawnPosition));
-    entity.add(tileMovement(4, Direction.Down));
+    entity.add(tileMovement(2.5f, Direction.Down));
     entity.add(state());
     entity.add(characterAnimation());
+    entity.add(followCamera());
     entityManager.addEntity(entity);
     return entity;
   }

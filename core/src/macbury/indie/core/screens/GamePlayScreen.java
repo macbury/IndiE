@@ -18,13 +18,16 @@ public class GamePlayScreen extends ScreenBase {
   @Override
   public void preload() {
     assets.load("charsets:debug_player.png", Texture.class);
+    assets.load("textures:a.png", Texture.class);
+    assets.load("textures:b.png", Texture.class);
   }
 
   @Override
   public void create() {
-    this.entities           = new EntityManager(game);
     this.camera             = new OrthographicCamera();
-    entities.add.player(new Vector3(1,1,1));
+    this.entities           = new EntityManager(game, camera);
+
+    entities.add.player(new Vector3(0,0,0));
   }
 
   @Override
@@ -42,7 +45,7 @@ public class GamePlayScreen extends ScreenBase {
 
   @Override
   public void resize(int width, int height) {
-    camera.setToOrtho(true, width, height);
+    camera.setToOrtho(false, width/3, height/3);
   }
 
   @Override
@@ -68,6 +71,8 @@ public class GamePlayScreen extends ScreenBase {
   @Override
   public void dispose() {
     assets.unload("charsets:debug_player.png");
+    assets.unload("textures:a.png");
+    assets.unload("textures:b.png");
     entities.dispose();
     camera = null;
   }

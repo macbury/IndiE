@@ -6,5 +6,6 @@ package macbury.indie.core.entities.states;
 public enum ActionState {
   Idle,
   Attack,
-  Interact
+  Interact,
+  Immobile
 }

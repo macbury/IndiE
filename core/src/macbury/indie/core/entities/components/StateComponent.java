@@ -17,7 +17,7 @@ public class StateComponent implements Component, Pool.Poolable {
   @Override
   public void reset() {
     setActionState(ActionState.Idle);
-    setMovementState(MovementState.Idle);
+    setMovementState(MovementState.Stop);
   }
 
   public MovementState getMovementState() {
@@ -37,11 +37,4 @@ public class StateComponent implements Component, Pool.Poolable {
     this.actionState = actionState;
   }
 
-  /**
-   * If state is {@link MovementState#Idle} or {@link MovementState#FinishMoving}
-   * @return
-   */
-  public boolean canMove() {
-    return movementState == MovementState.Idle || movementState == MovementState.FinishMoving;
-  }
 }

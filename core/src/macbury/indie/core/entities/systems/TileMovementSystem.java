@@ -5,6 +5,7 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Disposable;
 import macbury.indie.IndiE;
@@ -24,7 +25,6 @@ public class TileMovementSystem extends IteratingSystem implements Disposable {
   private ComponentMapper<PositionComponent> pc      = ComponentMapper.getFor(PositionComponent.class);
   private ComponentMapper<TileMovementComponent> tmc = ComponentMapper.getFor(TileMovementComponent.class);
   private ComponentMapper<StateComponent> sc         = ComponentMapper.getFor(StateComponent.class);
-  private Vector3 tempVector                         = new Vector3();
 
   public TileMovementSystem(IndiE game) {
     super(Family.all(PositionComponent.class, TileMovementComponent.class, StateComponent.class).get());
@@ -37,30 +37,25 @@ public class TileMovementSystem extends IteratingSystem implements Disposable {
     TileMovementComponent tileMovementComponent = tmc.get(entity);
     StateComponent        stateComponent        = sc.get(entity);
 
-    tileMovementComponent.addAlpha(deltaTime);
-
-    if (tileMovementComponent.finishedMoving()) {
-      if (stateComponent.getMovementState() == MovementState.Moving) {
-        stateComponent.setMovementState(MovementState.FinishMoving);
-      }
-
-      if (stateComponent.getMovementState() == MovementState.StartMoving) {
-        tileMovementComponent.resetAlpha();
-        tempVector.setZero().set(tileMovementComponent.direction.vector).scl(db.getTileSize()).add(positionComponent);
-
-        tileMovementComponent.startPosition.set(positionComponent);
-        tileMovementComponent.finalPosition.set(tempVector);
-        stateComponent.setMovementState(MovementState.Moving);
-        //Gdx.app.debug(TAG, "Going to: " + tileMovementComponent.finalPosition.toString() + " from " + tileMovementComponent.startPosition.toString());
-      }
+    if (tileMovementComponent.alpha == 0) {
+      stateComponent.setMovementState(MovementState.Start);
+    } else if (tileMovementComponent.alpha >= 1.0f) {
+      stateComponent.setMovementState(MovementState.Stop);
     } else {
-      positionComponent.set(tileMovementComponent.startPosition).lerp(tileMovementComponent.finalPosition, tileMovementComponent.alpha);
+      stateComponent.setMovementState(MovementState.Moving);
+    }
+
+    if (!tileMovementComponent.finishedMoving()) {
+      tileMovementComponent.addAlpha(deltaTime);
+      positionComponent.set(tileMovementComponent.startPosition).lerp(
+        tileMovementComponent.finalPosition,
+        tileMovementComponent.alpha
+      );
     }
   }
 
   @Override
   public void dispose() {
     db = null;
-    tempVector = null;
   }
 }

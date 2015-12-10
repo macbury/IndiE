@@ -6,6 +6,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.Disposable;
 import macbury.indie.IndiE;
 import macbury.indie.core.entities.components.ControllableComponent;
+import macbury.indie.core.entities.components.PositionComponent;
 import macbury.indie.core.entities.components.StateComponent;
 import macbury.indie.core.entities.components.TileMovementComponent;
 import macbury.indie.core.entities.shared.Direction;
@@ -17,20 +18,23 @@ import macbury.indie.core.input.InputManager;
  */
 public class PlayerControllerSystem extends EntitySystem implements Disposable, InputManager.Listener {
   private static final String TAG = "PlayerControllerSystem";
+  private IndiE game;
   private InputManager input;
   private ImmutableArray<Entity> controllableEntities;
+  private ComponentMapper<PositionComponent>    pc   = ComponentMapper.getFor(PositionComponent.class);
   private ComponentMapper<ControllableComponent> cm  = ComponentMapper.getFor(ControllableComponent.class);
   private ComponentMapper<TileMovementComponent> tmc = ComponentMapper.getFor(TileMovementComponent.class);
   private ComponentMapper<StateComponent> sc         = ComponentMapper.getFor(StateComponent.class);
 
   public PlayerControllerSystem(IndiE game) {
     this.input = game.input;
+    this.game  = game;
     input.addListener(this);
   }
 
   @Override
   public void addedToEngine(Engine engine) {
-    controllableEntities = engine.getEntitiesFor(Family.all(ControllableComponent.class, StateComponent.class, TileMovementComponent.class).get());
+    controllableEntities = engine.getEntitiesFor(Family.all(ControllableComponent.class, StateComponent.class, TileMovementComponent.class, PositionComponent.class).get());
   }
 
   @Override
@@ -56,22 +60,19 @@ public class PlayerControllerSystem extends EntitySystem implements Disposable, 
    * @param entity
    */
   private void handleEntityMovementByPlayer(Entity entity) {
-    StateComponent stateComponent               = sc.get(entity);
+    PositionComponent positionComponent         = pc.get(entity);
     TileMovementComponent tileMovementComponent = tmc.get(entity);
     if (input.isAnyMovementKeyActive()) {
-      if (stateComponent.canMove()) {
-        stateComponent.setMovementState(MovementState.StartMoving);
+      if (tileMovementComponent.finishedMoving()) {
+        tileMovementComponent.moveInDirection(positionComponent, input.getDirectionAction().toDirection(), game.db.getTileSize());
       }
-
-      tileMovementComponent.direction = input.getDirectionAction().toDirection();
-    } else if (stateComponent.getMovementState() == MovementState.FinishMoving) {
-      stateComponent.setMovementState(MovementState.Idle);
     }
   }
 
   @Override
   public void dispose() {
     input.removeListener(this);
+    game = null;
     controllableEntities = null;
     input = null;
   }
