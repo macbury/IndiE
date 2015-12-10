@@ -12,6 +12,7 @@ import macbury.indie.core.entities.states.MovementState;
  */
 public class TileMovementComponent implements Component, Pool.Poolable {
   private static final String TAG = "TileMovementComponent";
+  private static final float MAX_ALPHA_VALUE = 1.0f;
   public final Vector3 startPosition = new Vector3();
   public final Vector3 finalPosition = new Vector3();
   public float alpha;
@@ -22,9 +23,10 @@ public class TileMovementComponent implements Component, Pool.Poolable {
   public void reset() {
     startPosition.setZero();
     finalPosition.setZero();
+
     direction = Direction.None;
-    alpha = 1.0f;
-    speed = 0;
+    alpha     = 1.0f;
+    speed     = 0;
   }
 
   /**
@@ -41,8 +43,8 @@ public class TileMovementComponent implements Component, Pool.Poolable {
    */
   public void addAlpha(float delta) {
     this.alpha += delta * speed;
-    if (alpha > 1.0f) {
-      alpha = 1.0f;
+    if (alpha > MAX_ALPHA_VALUE) {
+      alpha = MAX_ALPHA_VALUE;
     }
   }
 
@@ -66,7 +68,7 @@ public class TileMovementComponent implements Component, Pool.Poolable {
       startPosition.set(startVector);
       finalPosition.setZero().set(direction.vector).scl(tileSize).add(startVector);
 
-      Gdx.app.debug(TAG, "Going to: " + finalPosition.toString() + " from " + startPosition.toString());
+      //Gdx.app.debug(TAG, "Going to: " + finalPosition.toString() + " from " + startPosition.toString());
     } else {
       throw new RuntimeException("This entity did not finish moving!");
     }

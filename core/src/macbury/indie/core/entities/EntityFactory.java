@@ -2,6 +2,8 @@ package macbury.indie.core.entities;
 
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Disposable;
 import macbury.indie.IndiE;
@@ -40,10 +42,8 @@ public class EntityFactory implements Disposable {
    * Creates position component helper
    * @return
    */
-  private PositionComponent position(Vector3 position) {
-    PositionComponent positionComponent = entityManager.createComponent(PositionComponent.class);
-    positionComponent.set(position);
-    return positionComponent;
+  private PositionComponent position() {
+    return entityManager.createComponent(PositionComponent.class);
   }
 
   /**
@@ -60,10 +60,14 @@ public class EntityFactory implements Disposable {
    * Creates state component helper
    * @return
    */
-  private CharacterAnimationComponent characterAnimation() {
+  private CharacterAnimationComponent characterAnimation(String atlasName, String charsetName) {
     CharacterAnimationComponent characterAnimationComponent = entityManager.createComponent(CharacterAnimationComponent.class);
     characterAnimationComponent.reset();
-    characterAnimationComponent.setTexture(game.assets.get("charsets:debug_player.png", Texture.class));
+
+    TextureAtlas atlas = game.assets.get("charsets:"+atlasName+".atlas", TextureAtlas.class);
+    characterAnimationComponent.setAtlas(atlas, charsetName);
+    //Animation animation = new Animation(10, atlas.findRegion(charsetName + "_up", 0));
+    //characterAnimationComponent.setTexture(game.assets.get("charsets:debug_player.png", Texture.class));
     return characterAnimationComponent;
   }
 
@@ -84,16 +88,24 @@ public class EntityFactory implements Disposable {
   }
 
   /**
-   * Creates player enitity.
-   * @return
+   * Creates player enitity and adds it to world
+   * @param tx x tile position
+   * @param ty y tile position
+   * @return created entity
    */
-  public Entity player(Vector3 spawnPosition) {
+  public Entity player(int tx, int ty) {
+    TileMovementComponent tileMovementComponent = tileMovement(2.8f, Direction.Down);
+    PositionComponent     positionComponent     = position();
+
+    positionComponent.setTilePosition(tx, ty);
+    tileMovementComponent.startPosition.set(positionComponent);
+
     Entity entity = ce();
     entity.add(controllable());
-    entity.add(position(spawnPosition));
-    entity.add(tileMovement(2.5f, Direction.Down));
+    entity.add(positionComponent);
+    entity.add(tileMovementComponent);
     entity.add(state());
-    entity.add(characterAnimation());
+    entity.add(characterAnimation("npc", "npc"));
     entity.add(followCamera());
     entityManager.addEntity(entity);
     return entity;
@@ -104,4 +116,5 @@ public class EntityFactory implements Disposable {
     game = null;
     entityManager = null;
   }
+
 }

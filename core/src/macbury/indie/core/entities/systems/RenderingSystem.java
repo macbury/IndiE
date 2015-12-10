@@ -7,12 +7,15 @@ import com.badlogic.ashley.systems.IteratingSystem;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Disposable;
 import macbury.indie.IndiE;
 import macbury.indie.core.entities.components.CharacterAnimationComponent;
 import macbury.indie.core.entities.components.PositionComponent;
 import macbury.indie.core.entities.components.StateComponent;
 import macbury.indie.core.entities.components.TileMovementComponent;
+import macbury.indie.core.entities.states.MovementState;
+import macbury.indie.core.utils.UnitUtil;
 
 /**
  * Created on 07.12.15.
@@ -24,11 +27,13 @@ public class RenderingSystem extends IteratingSystem implements Disposable {
   private OrthographicCamera camera;
   private ComponentMapper<PositionComponent> pc             = ComponentMapper.getFor(PositionComponent.class);
   private ComponentMapper<CharacterAnimationComponent> chac = ComponentMapper.getFor(CharacterAnimationComponent.class);
+  private ComponentMapper<TileMovementComponent> tmc        = ComponentMapper.getFor(TileMovementComponent.class);
 
+  private ComponentMapper<StateComponent> sc                = ComponentMapper.getFor(StateComponent.class);
   private final SpriteBatch spriteBatch;
 
   public RenderingSystem(IndiE game, OrthographicCamera camera) {
-    super(Family.all(PositionComponent.class, CharacterAnimationComponent.class).get());
+    super(Family.all(StateComponent.class, PositionComponent.class, CharacterAnimationComponent.class, TileMovementComponent.class, StateComponent.class).get());
     this.spriteBatch = new SpriteBatch();
     this.camera      = camera;
     this.game        = game;
@@ -67,6 +72,21 @@ public class RenderingSystem extends IteratingSystem implements Disposable {
   protected void processEntity(Entity entity, float deltaTime) {
     CharacterAnimationComponent characterAnimationComponent = chac.get(entity);
     PositionComponent positionComponent                     = pc.get(entity);
-    spriteBatch.draw(characterAnimationComponent.getTexture(), positionComponent.x, positionComponent.z);
+    TileMovementComponent tileMovementComponent             = tmc.get(entity);
+    StateComponent stateComponent                           = sc.get(entity);
+
+    if (tileMovementComponent.finishedMoving()) {
+      characterAnimationComponent.resetAnimations();
+    }
+
+    TextureRegion animationFrameRegion = characterAnimationComponent.getAnimationTexture(tileMovementComponent.direction, deltaTime);
+
+    float offsetX = (UnitUtil.TILE_SIZE - animationFrameRegion.getRegionWidth()) / 2.0f;
+
+    spriteBatch.draw(
+      animationFrameRegion,
+      positionComponent.x + offsetX,
+      positionComponent.z
+    );
   }
 }

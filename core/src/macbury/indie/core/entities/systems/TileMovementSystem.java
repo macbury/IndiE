@@ -37,20 +37,20 @@ public class TileMovementSystem extends IteratingSystem implements Disposable {
     TileMovementComponent tileMovementComponent = tmc.get(entity);
     StateComponent        stateComponent        = sc.get(entity);
 
-    if (tileMovementComponent.alpha == 0) {
-      stateComponent.setMovementState(MovementState.Start);
-    } else if (tileMovementComponent.alpha >= 1.0f) {
-      stateComponent.setMovementState(MovementState.Stop);
-    } else {
-      stateComponent.setMovementState(MovementState.Moving);
-    }
-
     if (!tileMovementComponent.finishedMoving()) {
       tileMovementComponent.addAlpha(deltaTime);
       positionComponent.set(tileMovementComponent.startPosition).lerp(
         tileMovementComponent.finalPosition,
         tileMovementComponent.alpha
       );
+    }
+
+    if (tileMovementComponent.alpha == 0) {
+      stateComponent.setMovementState(MovementState.Start);
+    } else if (tileMovementComponent.alpha >= 1.0f) {
+      stateComponent.setMovementState(MovementState.Stop);
+    } else {
+      stateComponent.setMovementState(MovementState.Moving);
     }
   }
 

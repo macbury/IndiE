@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector3;
 import macbury.indie.core.entities.EntityManager;
 
@@ -17,7 +18,7 @@ public class GamePlayScreen extends ScreenBase {
 
   @Override
   public void preload() {
-    assets.load("charsets:debug_player.png", Texture.class);
+    assets.load("charsets:npc.atlas", TextureAtlas.class);
     assets.load("textures:a.png", Texture.class);
     assets.load("textures:b.png", Texture.class);
   }
@@ -27,7 +28,7 @@ public class GamePlayScreen extends ScreenBase {
     this.camera             = new OrthographicCamera();
     this.entities           = new EntityManager(game, camera);
 
-    entities.add.player(new Vector3(0,0,0));
+    entities.add.player(1,1);
   }
 
   @Override
@@ -45,7 +46,7 @@ public class GamePlayScreen extends ScreenBase {
 
   @Override
   public void resize(int width, int height) {
-    camera.setToOrtho(false, width/3, height/3);
+    camera.setToOrtho(false, width/2, height/2);
   }
 
   @Override
