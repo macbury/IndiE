@@ -4,8 +4,10 @@ import com.badlogic.ashley.core.Component;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Pool;
+import macbury.indie.core.Database;
 import macbury.indie.core.entities.shared.Direction;
 import macbury.indie.core.entities.states.MovementState;
+import macbury.indie.core.utils.UnitUtil;
 
 /**
  * This component contains all information needed for moving like {@link Direction} start position, end position speed
@@ -59,14 +61,13 @@ public class TileMovementComponent implements Component, Pool.Poolable {
    * Prepares tile to move in next direction
    * @param startVector - from where should start move
    * @param inDirection - in what direction should move
-   * @param tileSize - tile size or distance to move
    */
-  public void moveInDirection(Vector3 startVector, Direction inDirection, float tileSize) {
+  public void moveInDirection(Vector3 startVector, Direction inDirection) {
     if (finishedMoving()) {
       resetAlpha();
       this.direction = inDirection;
       startPosition.set(startVector);
-      finalPosition.setZero().set(direction.vector).scl(tileSize).add(startVector);
+      finalPosition.setZero().set(direction.vector).scl(UnitUtil.TILE_SIZE).add(startVector);
 
       //Gdx.app.debug(TAG, "Going to: " + finalPosition.toString() + " from " + startPosition.toString());
     } else {

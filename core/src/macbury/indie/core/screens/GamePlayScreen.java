@@ -28,6 +28,7 @@ public class GamePlayScreen extends ScreenBase {
     this.camera             = new OrthographicCamera();
     this.entities           = new EntityManager(game, camera);
 
+    entities.add.monster(5,5);
     entities.add.player(1,1);
   }
 
@@ -39,8 +40,8 @@ public class GamePlayScreen extends ScreenBase {
   @Override
   public void render(float delta) {
     camera.update();
-    Gdx.gl.glClearColor(1,0,0,1);
-    Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+    Gdx.gl.glClearColor(0,0,0,1);
+    Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
     entities.update(delta);
   }
 

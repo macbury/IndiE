@@ -4,10 +4,7 @@ import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.utils.Disposable;
 import macbury.indie.IndiE;
-import macbury.indie.core.entities.systems.CameraFollowEntitySystem;
-import macbury.indie.core.entities.systems.PlayerControllerSystem;
-import macbury.indie.core.entities.systems.RenderingSystem;
-import macbury.indie.core.entities.systems.TileMovementSystem;
+import macbury.indie.core.entities.systems.*;
 
 /**
  * Manages creation of entities and entity systems
@@ -16,10 +13,10 @@ public class EntityManager extends PooledEngine implements Disposable {
   private OrthographicCamera camera;
   public EntityFactory add;
   private IndiE game;
-  private PlayerControllerSystem playerControllerSystem;
   private TileMovementSystem tileMovementSystem;
-  private RenderingSystem renderingSystem;
+  private CharacterRenderingSystem characterRenderingSystem;
   private CameraFollowEntitySystem followCameraSystem;
+  private FSMSystem fsmSystem;
 
   public EntityManager(IndiE game, OrthographicCamera camera) {
     super();
@@ -31,33 +28,33 @@ public class EntityManager extends PooledEngine implements Disposable {
   }
 
   private void setupSystems() {
+    this.fsmSystem              = new FSMSystem();
+    addSystem(fsmSystem);
+
     this.tileMovementSystem     = new TileMovementSystem(game);
     addSystem(tileMovementSystem);
-
-    this.playerControllerSystem = new PlayerControllerSystem(game);
-    addSystem(playerControllerSystem);
 
     this.followCameraSystem     = new CameraFollowEntitySystem(camera);
     addSystem(followCameraSystem);
 
-    this.renderingSystem        = new RenderingSystem(game, camera);
-    addSystem(renderingSystem);
+    this.characterRenderingSystem = new CharacterRenderingSystem(game, camera);
+    addSystem(characterRenderingSystem);
   }
 
   @Override
   public void dispose() {
     add.dispose();
-    playerControllerSystem.dispose();
     tileMovementSystem.dispose();
-    renderingSystem.dispose();
+    characterRenderingSystem.dispose();
     followCameraSystem.dispose();
+    fsmSystem.dispose();
 
     followCameraSystem      = null;
-    playerControllerSystem  = null;
-    renderingSystem         = null;
+    characterRenderingSystem = null;
     tileMovementSystem      = null;
     camera                  = null;
     game                    = null;
     add                     = null;
+    fsmSystem               = null;
   }
 }

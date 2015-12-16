@@ -20,13 +20,14 @@ public class CharacterAnimationComponent implements Component, Pool.Poolable {
   private ObjectMap<Direction, Animation> animations;
   private float animationTime;
   private Direction currentDirection;
-
+  private boolean enabled = false;
   public CharacterAnimationComponent() {
     animations = new ObjectMap<Direction, Animation>();
   }
 
   @Override
   public void reset() {
+    enabled          = false;
     currentDirection = Direction.None;
     animations.clear();
     resetAnimations();
@@ -44,7 +45,12 @@ public class CharacterAnimationComponent implements Component, Pool.Poolable {
       currentDirection = nextDirection;
     }
 
-    animationTime += deltaTime;
+    if (enabled) {
+      animationTime += deltaTime;
+    } else {
+      animationTime = 0;
+    }
+
 
     Animation animation = animations.get(nextDirection);
     if (animation == null) {
@@ -84,5 +90,20 @@ public class CharacterAnimationComponent implements Component, Pool.Poolable {
     Animation animation = new Animation(CharacterAnimationSpeed.Normal.timeForFrame, frames, Animation.PlayMode.LOOP);
     animations.put(direction, animation);
 
+  }
+
+  /**
+   * Reset animation timer end starts it
+   */
+  public void startAnimation() {
+    resetAnimations();
+    enabled = true;
+  }
+
+  /**
+   * Disable animation
+   */
+  public void stopAnimation() {
+    enabled = false;
   }
 }

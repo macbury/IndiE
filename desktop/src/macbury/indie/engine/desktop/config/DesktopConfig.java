@@ -12,6 +12,7 @@ public class DesktopConfig extends LwjglApplicationConfiguration {
     this.width     = 1360;
     this.height    = 768;
     this.resizable = false;
+    this.useGL30   = true;
     this.title     = "IndiE(ngine)";
   }
 }

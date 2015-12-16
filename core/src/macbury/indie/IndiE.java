@@ -3,6 +3,12 @@ package macbury.indie;
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.controllers.Controller;
+import com.badlogic.gdx.controllers.ControllerListener;
+import com.badlogic.gdx.controllers.Controllers;
+import com.badlogic.gdx.controllers.PovDirection;
+import com.badlogic.gdx.graphics.FPSLogger;
+import com.badlogic.gdx.math.Vector3;
 import macbury.indie.core.Database;
 import macbury.indie.core.assets.Assets;
 import macbury.indie.core.input.InputManager;
@@ -31,23 +37,27 @@ public class IndiE extends ApplicationAdapter {
    * Manages game inputs
    */
   public InputManager input;
+  private FPSLogger fpsLogger;
 
   @Override
   public void create () {
     Gdx.app.setLogLevel(Application.LOG_DEBUG);
     Gdx.app.log(TAG, "Init...");
+    this.fpsLogger = new FPSLogger();
     this.screens = new ScreenManager(this);
     this.db      = new Database();
     this.assets  = new Assets();
     this.input   = new InputManager();
 
     screens.set(new GamePlayScreen());
+
     Gdx.input.setInputProcessor(input);
   }
 
 
   @Override
   public void render () {
+    fpsLogger.log();
     screens._render();
   }
 

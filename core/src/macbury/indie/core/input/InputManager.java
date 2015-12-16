@@ -3,65 +3,51 @@ package macbury.indie.core.input;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.controllers.Controller;
+import com.badlogic.gdx.controllers.ControllerListener;
+import com.badlogic.gdx.controllers.Controllers;
+import com.badlogic.gdx.controllers.PovDirection;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.ObjectMap;
-import macbury.indie.core.entities.shared.Direction;
+import macbury.indie.core.input.mappings.PS3DualShock;
 
 /**
- * This class maps {@link ActionButton} to keycodes and triggers {@link macbury.indie.core.input.InputManager.Listener} if any action button is pressed
+ * This class maps {@link ActionButton} to keycodes and triggers {@link macbury.indie.core.input.InputManager.Listener} if
+ * any action button is pressed
  */
-public class InputManager implements InputProcessor, Disposable {
+public class InputManager implements InputProcessor, Disposable, ControllerListener {
+  private static final String TAG = "InputManager";
 
-  public enum ActionButton {
-    Left, Right, Up, Down, CancelOrQuit, DoAction;
-
-    /**
-     * Return true if action button is {@link macbury.indie.core.input.InputManager.ActionButton#Left}, {@link macbury.indie.core.input.InputManager.ActionButton#Right}
-     * {@link macbury.indie.core.input.InputManager.ActionButton#Top}, {@link macbury.indie.core.input.InputManager.ActionButton#Down}
-     * @param actionButton
-     * @return
-     */
-    public static boolean isMovement(ActionButton actionButton) {
-      return (actionButton == Left || actionButton == Right || actionButton == Up || actionButton == DoAction);
-    }
-
-    /**
-     * Maps current {@link macbury.indie.core.input.InputManager.ActionButton} to {@link Direction}
-     * @return
-     */
-    public Direction toDirection() {
-      switch (this) {
-        case Up:
-          return Direction.Up;
-
-        case Down:
-          return Direction.Down;
-
-        case Left:
-          return Direction.Left;
-
-        case Right:
-          return Direction.Right;
-      }
-
-      throw new RuntimeException(""+this + " is not movement");
-    }
-  }
   private ObjectMap<Integer, ActionButton> keyBoardMappings;
+  private ObjectMap<Integer, ActionButton> controllerMappings;
   private ObjectMap<ActionButton, Boolean> buttonActive;
   private Array<Listener> listeners;
 
   public InputManager() {
-    listeners        = new Array<Listener>();
-    keyBoardMappings = new ObjectMap<Integer, ActionButton>();
-    buttonActive     = new ObjectMap<ActionButton, Boolean>();
+    listeners          = new Array<Listener>();
+    controllerMappings = new ObjectMap<Integer, ActionButton>();
+    keyBoardMappings   = new ObjectMap<Integer, ActionButton>();
+    buttonActive       = new ObjectMap<ActionButton, Boolean>();
 
     for (ActionButton actionButton : ActionButton.values()) {
       buttonActive.put(actionButton, false);
     }
 
     configureKeyboard();
+    configureController();
+    Controllers.addListener(this);
+  }
+
+  private void configureController() {
+    controllerMappings.put(PS3DualShock.Up.keyCode, ActionButton.Up);
+    controllerMappings.put(PS3DualShock.Left.keyCode, ActionButton.Left);
+    controllerMappings.put(PS3DualShock.Right.keyCode, ActionButton.Right);
+    controllerMappings.put(PS3DualShock.Down.keyCode, ActionButton.Down);
+
+    controllerMappings.put(PS3DualShock.X.keyCode, ActionButton.DoAction);
+    controllerMappings.put(PS3DualShock.Square.keyCode, ActionButton.CancelOrQuit);
   }
 
   /**
@@ -78,7 +64,7 @@ public class InputManager implements InputProcessor, Disposable {
   }
 
   /**
-   * Adds listener for {@link macbury.indie.core.input.InputManager.ActionButton}
+   * Adds listener for {@link ActionButton}
    * @param listener
    */
   public void addListener(Listener listener) {
@@ -94,7 +80,7 @@ public class InputManager implements InputProcessor, Disposable {
   }
 
   /**
-   * Returns true if {@link macbury.indie.core.input.InputManager.ActionButton} is pressed
+   * Returns true if {@link ActionButton} is pressed
    * @param actionButton
    * @return
    */
@@ -111,7 +97,7 @@ public class InputManager implements InputProcessor, Disposable {
   }
 
   /**
-   * Return current pressed {@link macbury.indie.core.input.InputManager.ActionButton}
+   * Return current pressed {@link ActionButton}
    * @return
    */
   public ActionButton getDirectionAction() {
@@ -129,7 +115,7 @@ public class InputManager implements InputProcessor, Disposable {
   }
 
   /**
-   * Sets {@link macbury.indie.core.input.InputManager.ActionButton} to be active only if previously is not.
+   * Sets {@link ActionButton} to be active only if previously is not.
    * If is active triggers {@link macbury.indie.core.input.InputManager.Listener#onActionButtonUp(InputManager, ActionButton)}
    * @param triggeredButton button to be triggered
    * @return
@@ -147,7 +133,7 @@ public class InputManager implements InputProcessor, Disposable {
   }
 
   /**
-   * Sets {@link macbury.indie.core.input.InputManager.ActionButton} not to be active only if previously is .
+   * Sets {@link ActionButton} not to be active only if previously is .
    * If is active triggers {@link macbury.indie.core.input.InputManager.Listener#onActionButtonDown(InputManager, ActionButton)} (InputManager, ActionButton)}
    * @param triggeredButton button to be triggered
    * @return
@@ -174,7 +160,6 @@ public class InputManager implements InputProcessor, Disposable {
 
   @Override
   public boolean keyDown(int keycode) {
-    Gdx.app.debug("DEBUG PS3", "Pressed: " + keycode);
     ActionButton triggeredButton = keyBoardMappings.get(keycode);
     if (triggeredButton != null) {
       return triggerActionButtonDown(triggeredButton);
@@ -220,6 +205,62 @@ public class InputManager implements InputProcessor, Disposable {
 
   @Override
   public boolean scrolled(int amount) {
+    return false;
+  }
+
+
+  @Override
+  public void connected(Controller controller) {
+
+  }
+
+  @Override
+  public void disconnected(Controller controller) {
+
+  }
+
+  @Override
+  public boolean buttonDown(Controller controller, int buttonCode) {
+    ActionButton triggeredButton = controllerMappings.get(buttonCode);
+    if (triggeredButton != null) {
+      return triggerActionButtonDown(triggeredButton);
+    } else {
+      return false;
+    }
+  }
+
+  @Override
+  public boolean buttonUp(Controller controller, int buttonCode) {
+    ActionButton triggeredButton = controllerMappings.get(buttonCode);
+    if (triggeredButton != null) {
+      return triggerActionButtonUp(triggeredButton);
+    } else {
+      return false;
+    }
+  }
+
+  @Override
+  public boolean axisMoved(Controller controller, int axisCode, float value) {
+    return false;
+  }
+
+  @Override
+  public boolean povMoved(Controller controller, int povCode, PovDirection value) {
+    return false;
+  }
+
+  @Override
+  public boolean xSliderMoved(Controller controller, int sliderCode, boolean value) {
+    return false;
+  }
+
+  @Override
+  public boolean ySliderMoved(Controller controller, int sliderCode, boolean value) {
+    return false;
+  }
+
+  @Override
+  public boolean accelerometerMoved(Controller controller, int accelerometerCode, Vector3 value) {
     return false;
   }
 
