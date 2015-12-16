@@ -9,7 +9,9 @@ public enum PS3DualShock {
   X(14),
   Square(15),
   O(13),
-  Triangle(12);
+  Triangle(12),
+  LeftAxisX(0),
+  LeftAxisY(1);
 
   public final int keyCode;
 

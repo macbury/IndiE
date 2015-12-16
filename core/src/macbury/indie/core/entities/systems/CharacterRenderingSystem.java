@@ -4,6 +4,10 @@ import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.ai.msg.MessageDispatcher;
+import com.badlogic.gdx.ai.msg.Telegram;
+import com.badlogic.gdx.ai.msg.Telegraph;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -14,6 +18,7 @@ import macbury.indie.core.entities.Components;
 import macbury.indie.core.entities.components.CharacterAnimationComponent;
 import macbury.indie.core.entities.components.PositionComponent;
 import macbury.indie.core.entities.components.TileMovementComponent;
+import macbury.indie.core.entities.states.TelegramMessage;
 import macbury.indie.core.utils.UnitUtil;
 
 /**
@@ -22,26 +27,32 @@ import macbury.indie.core.utils.UnitUtil;
  * {@link CharacterAnimationComponent}
  * {@link TileMovementComponent}
  */
-public class CharacterRenderingSystem extends IteratingSystem implements Disposable {
+public class CharacterRenderingSystem extends IteratingSystem implements Disposable, Telegraph {
   private final Texture tileA;
   private final Texture tileB;
+  private MessageDispatcher messages;
   private IndiE game;
   private OrthographicCamera camera;
 
   private final SpriteBatch spriteBatch;
 
-  public CharacterRenderingSystem(IndiE game, OrthographicCamera camera) {
+  public CharacterRenderingSystem(IndiE game, OrthographicCamera camera, MessageDispatcher messages) {
     super(Family.all(PositionComponent.class, CharacterAnimationComponent.class, TileMovementComponent.class).get());
     this.spriteBatch = new SpriteBatch();
     this.camera      = camera;
+    this.messages    = messages;
     this.game        = game;
     this.tileA       = game.assets.get("textures:a.png", Texture.class);
     this.tileB       = game.assets.get("textures:b.png", Texture.class);
-
+    messages.addListener(this, TelegramMessage.StartMoving);
+    messages.addListener(this, TelegramMessage.FinishMoving);
   }
 
   @Override
   public void dispose() {
+    messages.removeListener(this, TelegramMessage.StartMoving);
+    messages.removeListener(this, TelegramMessage.FinishMoving);
+    messages = null;
     spriteBatch.dispose();
     game = null;
   }
@@ -86,5 +97,21 @@ public class CharacterRenderingSystem extends IteratingSystem implements Disposa
       positionComponent.x + offsetX,
       positionComponent.z
     );
+  }
+
+  @Override
+  public boolean handleMessage(Telegram telegram) {
+    Entity entity = (Entity) telegram.extraInfo;
+    switch (telegram.message) {
+      case TelegramMessage.StartMoving:
+        Components.CharacterAnimation.get(entity).startAnimation();
+        return true;
+
+      case TelegramMessage.FinishMoving:
+        Components.CharacterAnimation.get(entity).stopAnimation();
+        return true;
+    }
+
+    return false;
   }
 }

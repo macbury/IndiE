@@ -3,6 +3,7 @@ package macbury.indie.core.entities.states;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ai.fsm.State;
+import com.badlogic.gdx.ai.msg.MessageManager;
 import com.badlogic.gdx.ai.msg.Telegram;
 import macbury.indie.core.entities.Components;
 import macbury.indie.core.entities.components.*;
@@ -28,7 +29,7 @@ public enum PlayerState implements State<Entity> {
   Moving {
     @Override
     public void enter(Entity entity) {
-      Components.CharacterAnimation.get(entity).startAnimation();
+      Components.FSM.get(entity).getMessages().dispatchMessage(null, null, TelegramMessage.StartMoving, entity);
     }
 
     @Override
@@ -49,7 +50,7 @@ public enum PlayerState implements State<Entity> {
 
     @Override
     public void exit(Entity entity) {
-      Components.CharacterAnimation.get(entity).stopAnimation();
+      Components.FSM.get(entity).getMessages().dispatchMessage(null, null, TelegramMessage.FinishMoving, entity);
     }
   };
 

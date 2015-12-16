@@ -3,6 +3,7 @@ package macbury.indie.core.entities;
 import com.badlogic.ashley.core.Component;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.ai.fsm.State;
+import com.badlogic.gdx.ai.msg.MessageDispatcher;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -22,10 +23,10 @@ public class EntityFactory implements Disposable {
   private EntityManager entityManager;
   private IndiE game;
 
-  public EntityFactory(IndiE game, EntityManager entityManager) {
+  public EntityFactory(IndiE game, EntityManager entityManager, MessageDispatcher messages) {
     this.game          = game;
     this.entityManager = entityManager;
-    this.builder       = new Builder(entityManager, game);
+    this.builder       = new Builder(entityManager, game, messages);
   }
 
   /**
@@ -73,13 +74,15 @@ public class EntityFactory implements Disposable {
    * Assemble new entity
    */
   private class Builder implements Disposable {
+    private MessageDispatcher messages;
     private IndiE game;
     private EntityManager manager;
     private Entity entity;
 
-    public Builder(EntityManager manager, IndiE game) {
+    public Builder(EntityManager manager, IndiE game, MessageDispatcher messages) {
       this.manager = manager;
       this.game    = game;
+      this.messages = messages;
     }
 
     /**
@@ -156,7 +159,8 @@ public class EntityFactory implements Disposable {
      */
     private Builder stateMachine(State<Entity> initialState) {
       FSMComponent component = entityManager.createComponent(FSMComponent.class);
-      component.init(entity);
+      component.reset();
+      component.init(entity, messages);
       component.changeState(initialState);
       entity.add(component);
       return this;
@@ -178,6 +182,7 @@ public class EntityFactory implements Disposable {
     public void dispose() {
       this.manager = null;
       this.game    = null;
+      messages = null;
       entity = null;
     }
   }

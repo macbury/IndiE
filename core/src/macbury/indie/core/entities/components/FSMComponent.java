@@ -5,6 +5,7 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.ai.fsm.DefaultStateMachine;
 import com.badlogic.gdx.ai.fsm.State;
 import com.badlogic.gdx.ai.fsm.StateMachine;
+import com.badlogic.gdx.ai.msg.MessageDispatcher;
 import com.badlogic.gdx.ai.msg.Telegram;
 import com.badlogic.gdx.ai.msg.Telegraph;
 import com.badlogic.gdx.utils.Pool;
@@ -14,6 +15,7 @@ import com.badlogic.gdx.utils.Pool;
  */
 public class FSMComponent implements Component, Pool.Poolable, Telegraph {
   private DefaultStateMachine<Entity> stateMachine;
+  private MessageDispatcher messages;
 
   /** Can only be created by PooledEngine */
   private FSMComponent () {
@@ -23,10 +25,12 @@ public class FSMComponent implements Component, Pool.Poolable, Telegraph {
   /**
    * Creates state machine for entity
    * @param entity
+   * @param messages
    * @return
    */
-  public FSMComponent init (Entity entity) {
+  public FSMComponent init(Entity entity, MessageDispatcher messages) {
     stateMachine = new DefaultStateMachine<Entity>(entity);
+    this.messages  = messages;
     return this;
   }
 
@@ -50,5 +54,10 @@ public class FSMComponent implements Component, Pool.Poolable, Telegraph {
   @Override
   public void reset() {
     stateMachine = null;
+    messages = null;
+  }
+
+  public MessageDispatcher getMessages() {
+    return messages;
   }
 }

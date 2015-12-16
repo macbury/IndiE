@@ -239,9 +239,39 @@ public class InputManager implements InputProcessor, Disposable, ControllerListe
     }
   }
 
+  private boolean processAxisMovedFor(Controller controller,int axisXCode, int axisYCode) {
+    if (controller.getAxis(axisXCode) >= 0.5) {
+      triggerActionButtonUp(ActionButton.Left);
+      triggerActionButtonDown(ActionButton.Right);
+      return true;
+    } else if (controller.getAxis(axisXCode) <= -0.5) {
+      triggerActionButtonUp(ActionButton.Right);
+      triggerActionButtonDown(ActionButton.Left);
+      return true;
+    } else {
+      triggerActionButtonUp(ActionButton.Left);
+      triggerActionButtonUp(ActionButton.Right);
+    }
+
+    if (controller.getAxis(axisYCode) >= 0.5) {
+      triggerActionButtonUp(ActionButton.Up);
+      triggerActionButtonDown(ActionButton.Down);
+      return true;
+    } else if (controller.getAxis(axisYCode) <= -0.5) {
+      triggerActionButtonUp(ActionButton.Down);
+      triggerActionButtonDown(ActionButton.Up);
+      return true;
+    } else {
+      triggerActionButtonUp(ActionButton.Up);
+      triggerActionButtonUp(ActionButton.Down);
+    }
+
+    return false;
+  }
+
   @Override
   public boolean axisMoved(Controller controller, int axisCode, float value) {
-    return false;
+    return processAxisMovedFor(controller, PS3DualShock.LeftAxisX.keyCode, PS3DualShock.LeftAxisY.keyCode);
   }
 
   @Override
