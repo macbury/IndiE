@@ -13,6 +13,7 @@ import com.badlogic.gdx.utils.GdxRuntimeException;
 import macbury.indie.IndiE;
 import macbury.indie.core.entities.components.*;
 import macbury.indie.core.entities.shared.Direction;
+import macbury.indie.core.entities.states.MonsterState;
 import macbury.indie.core.entities.states.PlayerState;
 
 /**
@@ -55,19 +56,12 @@ public class EntityFactory implements Disposable {
   }
 
   public Entity monster(int tx, int ty) {
-  //  TileMovementComponent tileMovementComponent = tileMovement(2.8f, Direction.Down);
-  //  PositionComponent     positionComponent     = position();
-
-   // positionComponent.setTilePosition(tx, ty);
-   // tileMovementComponent.startPosition.set(positionComponent);
-
-   // Entity entity = ce();
-   // entity.add(positionComponent);
-   // entity.add(tileMovementComponent);
-   // entity.add(monster());
-    //entity.add(characterAnimation("npc", "player"));
-  //  entityManager.addEntity(entity);
-    return null;
+    return builder.begin()
+      .position(tx, ty)
+      .tileMovement(2.8f, Direction.Down)
+      .stateMachine(MonsterState.Idle)
+      .characterAnimation("npc", "player")
+      .end();
   }
 
   /**

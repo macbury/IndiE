@@ -10,7 +10,7 @@ public class UnitUtil {
   /**
    * Size in pixels of game tile
    */
-  public static final int TILE_SIZE = 24;
+  public static final int TILE_SIZE = 32;
 
   /**
    * Transform to world {@link Vector3} using passed tile position

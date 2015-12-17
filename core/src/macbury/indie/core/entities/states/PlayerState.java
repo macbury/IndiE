@@ -9,7 +9,7 @@ import macbury.indie.core.entities.Components;
 import macbury.indie.core.entities.components.*;
 
 /**
- * Created on 16.12.15.
+ * This enum have all logic for moving and attacking player
  */
 public enum PlayerState implements State<Entity> {
   Idle {

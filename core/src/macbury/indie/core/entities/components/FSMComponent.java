@@ -60,4 +60,5 @@ public class FSMComponent implements Component, Pool.Poolable, Telegraph {
   public MessageDispatcher getMessages() {
     return messages;
   }
+
 }

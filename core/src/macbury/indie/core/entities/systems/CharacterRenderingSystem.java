@@ -66,7 +66,7 @@ public class CharacterRenderingSystem extends IteratingSystem implements Disposa
       for (int x = 0; x < 11; x++) {
         for (int y = 0; y < 11; y++) {
           i++;
-          spriteBatch.draw(i%2 == 0 ? tileA : tileB, x * game.db.getTileSize(), y * game.db.getTileSize());
+          spriteBatch.draw(i%2 == 0 ? tileA : tileB, x * UnitUtil.TILE_SIZE, y * UnitUtil.TILE_SIZE, UnitUtil.TILE_SIZE, UnitUtil.TILE_SIZE);
         }
       }
 
@@ -91,11 +91,11 @@ public class CharacterRenderingSystem extends IteratingSystem implements Disposa
     TextureRegion animationFrameRegion = characterAnimationComponent.getAnimationTexture(tileMovementComponent.direction, deltaTime);
 
     float offsetX = (UnitUtil.TILE_SIZE - animationFrameRegion.getRegionWidth()) / 2.0f;
-
+    float offsetY = (UnitUtil.TILE_SIZE - animationFrameRegion.getRegionHeight()) / 2.0f;
     spriteBatch.draw(
       animationFrameRegion,
       positionComponent.x + offsetX,
-      positionComponent.z
+      positionComponent.z + offsetY
     );
   }
 

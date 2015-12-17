@@ -6,7 +6,6 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Pool;
 import macbury.indie.core.Database;
 import macbury.indie.core.entities.shared.Direction;
-import macbury.indie.core.entities.states.MovementState;
 import macbury.indie.core.utils.UnitUtil;
 
 /**
