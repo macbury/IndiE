@@ -42,7 +42,7 @@ public class EntityFactory implements Disposable {
       .position(tx, ty)
       .tileMovement(2.8f, Direction.Down)
       .stateMachine(PlayerState.Idle)
-      .characterAnimation("npc", "npc")
+      .characterAnimation("charset", "base")
       .followCamera()
       .end();
   }
@@ -60,7 +60,7 @@ public class EntityFactory implements Disposable {
       .position(tx, ty)
       .tileMovement(2.8f, Direction.Down)
       .stateMachine(MonsterState.Idle)
-      .characterAnimation("npc", "player")
+      .characterAnimation("charset", "base")
       .end();
   }
 

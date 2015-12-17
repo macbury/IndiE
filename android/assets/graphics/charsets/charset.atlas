@@ -1,0 +1,174 @@
+
+charset.png
+size: 128,256
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+base_down
+  rotate: false
+  xy: 2, 204
+  size: 27, 32
+  orig: 32, 32
+  offset: 3, 0
+  index: 0
+base_down
+  rotate: false
+  xy: 29, 2
+  size: 24, 31
+  orig: 32, 32
+  offset: 4, 0
+  index: 1
+base_down
+  rotate: false
+  xy: 30, 137
+  size: 24, 31
+  orig: 32, 32
+  offset: 5, 0
+  index: 2
+base_left
+  rotate: false
+  xy: 29, 103
+  size: 19, 32
+  orig: 32, 32
+  offset: 6, 0
+  index: 0
+base_left
+  rotate: false
+  xy: 79, 138
+  size: 19, 31
+  orig: 32, 32
+  offset: 6, 0
+  index: 1
+base_left
+  rotate: false
+  xy: 100, 139
+  size: 19, 31
+  orig: 32, 32
+  offset: 6, 0
+  index: 2
+base_right
+  rotate: false
+  xy: 29, 69
+  size: 19, 32
+  orig: 32, 32
+  offset: 7, 0
+  index: 0
+base_right
+  rotate: false
+  xy: 50, 104
+  size: 19, 31
+  orig: 32, 32
+  offset: 7, 0
+  index: 1
+base_right
+  rotate: false
+  xy: 50, 71
+  size: 19, 31
+  orig: 32, 32
+  offset: 7, 0
+  index: 2
+base_up
+  rotate: false
+  xy: 29, 35
+  size: 23, 32
+  orig: 32, 32
+  offset: 5, 0
+  index: 0
+base_up
+  rotate: false
+  xy: 56, 138
+  size: 21, 31
+  orig: 32, 32
+  offset: 6, 0
+  index: 1
+base_up
+  rotate: false
+  xy: 71, 105
+  size: 21, 31
+  orig: 32, 32
+  offset: 6, 0
+  index: 2
+dman_down
+  rotate: false
+  xy: 2, 170
+  size: 27, 32
+  orig: 32, 32
+  offset: 3, 0
+  index: 0
+dman_down
+  rotate: false
+  xy: 2, 137
+  size: 26, 31
+  orig: 32, 32
+  offset: 4, 0
+  index: 1
+dman_down
+  rotate: false
+  xy: 31, 171
+  size: 26, 31
+  orig: 32, 32
+  offset: 4, 0
+  index: 2
+dman_left
+  rotate: false
+  xy: 59, 204
+  size: 25, 32
+  orig: 32, 32
+  offset: 3, 0
+  index: 0
+dman_left
+  rotate: false
+  xy: 59, 171
+  size: 25, 31
+  orig: 32, 32
+  offset: 3, 0
+  index: 1
+dman_left
+  rotate: false
+  xy: 2, 70
+  size: 25, 31
+  orig: 32, 32
+  offset: 3, 0
+  index: 2
+dman_right
+  rotate: false
+  xy: 2, 103
+  size: 25, 32
+  orig: 32, 32
+  offset: 4, 0
+  index: 0
+dman_right
+  rotate: false
+  xy: 2, 37
+  size: 25, 31
+  orig: 32, 32
+  offset: 4, 0
+  index: 1
+dman_right
+  rotate: false
+  xy: 2, 4
+  size: 25, 31
+  orig: 32, 32
+  offset: 4, 0
+  index: 2
+dman_up
+  rotate: false
+  xy: 31, 204
+  size: 26, 32
+  orig: 32, 32
+  offset: 3, 0
+  index: 0
+dman_up
+  rotate: false
+  xy: 86, 205
+  size: 26, 31
+  orig: 32, 32
+  offset: 3, 0
+  index: 1
+dman_up
+  rotate: false
+  xy: 86, 172
+  size: 26, 31
+  orig: 32, 32
+  offset: 3, 0
+  index: 2

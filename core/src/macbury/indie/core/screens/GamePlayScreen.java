@@ -18,7 +18,7 @@ public class GamePlayScreen extends ScreenBase {
 
   @Override
   public void preload() {
-    assets.load("charsets:npc.atlas", TextureAtlas.class);
+    assets.load("charsets:charset.atlas", TextureAtlas.class);
     assets.load("textures:a.png", Texture.class);
     assets.load("textures:b.png", Texture.class);
   }
@@ -40,14 +40,14 @@ public class GamePlayScreen extends ScreenBase {
   @Override
   public void render(float delta) {
     camera.update();
-    Gdx.gl.glClearColor(0,0,0,1);
+    Gdx.gl.glClearColor(0,0,0,0);
     Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
     entities.update(delta);
   }
 
   @Override
   public void resize(int width, int height) {
-    camera.setToOrtho(false, width/2, height/2);
+    camera.setToOrtho(false, width, height);
   }
 
   @Override
@@ -72,7 +72,7 @@ public class GamePlayScreen extends ScreenBase {
 
   @Override
   public void dispose() {
-    assets.unload("charsets:debug_player.png");
+    assets.unload("charsets:charset.png");
     assets.unload("textures:a.png");
     assets.unload("textures:b.png");
     entities.dispose();
