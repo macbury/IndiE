@@ -90,12 +90,10 @@ public class CharacterRenderingSystem extends IteratingSystem implements Disposa
 
     TextureRegion animationFrameRegion = characterAnimationComponent.getAnimationTexture(tileMovementComponent.direction, deltaTime);
 
-    float offsetX = (UnitUtil.TILE_SIZE - animationFrameRegion.getRegionWidth()) / 2.0f;
-    float offsetY = (UnitUtil.TILE_SIZE - animationFrameRegion.getRegionHeight()) / 2.0f;
     spriteBatch.draw(
       animationFrameRegion,
-      positionComponent.x + offsetX,
-      positionComponent.z + offsetY
+      positionComponent.x,
+      positionComponent.z
     );
   }
 

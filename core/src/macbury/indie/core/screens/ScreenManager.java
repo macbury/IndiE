@@ -1,6 +1,8 @@
 package macbury.indie.core.screens;
 
+import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.ai.fsm.DefaultStateMachine;
 import com.badlogic.gdx.utils.Disposable;
 import macbury.indie.IndiE;
 
@@ -11,13 +13,14 @@ public class ScreenManager implements Disposable {
   private static final String TAG = "ScreenManager";
   private final IndiE game;
   private ScreenBase currentScreen;
+  private ScreenBase nextScreen;
 
   /**
    * Initializes {@link ScreenManager} and assigns {@link IndiE} game reference
    * @param game
    */
   public ScreenManager(IndiE game) {
-    this.game = game;
+    this.game         = game;
   }
 
   /**
@@ -96,5 +99,9 @@ public class ScreenManager implements Disposable {
     if (currentScreen != null) {
       currentScreen.resize(width, height);
     }
+  }
+
+  public ScreenBase getNextScreen() {
+    return nextScreen;
   }
 }

@@ -1,174 +1,174 @@
 
 charset.png
-size: 128,256
+size: 1024,64
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
 base_down
   rotate: false
-  xy: 2, 204
-  size: 27, 32
+  xy: 2, 2
+  size: 32, 32
   orig: 32, 32
-  offset: 3, 0
+  offset: 0, 0
   index: 0
 base_down
   rotate: false
-  xy: 29, 2
-  size: 24, 31
+  xy: 36, 2
+  size: 32, 32
   orig: 32, 32
-  offset: 4, 0
+  offset: 0, 0
   index: 1
 base_down
   rotate: false
-  xy: 30, 137
-  size: 24, 31
+  xy: 70, 2
+  size: 32, 32
   orig: 32, 32
-  offset: 5, 0
+  offset: 0, 0
   index: 2
 base_left
   rotate: false
-  xy: 29, 103
-  size: 19, 32
+  xy: 104, 2
+  size: 32, 32
   orig: 32, 32
-  offset: 6, 0
+  offset: 0, 0
   index: 0
 base_left
   rotate: false
-  xy: 79, 138
-  size: 19, 31
+  xy: 138, 2
+  size: 32, 32
   orig: 32, 32
-  offset: 6, 0
+  offset: 0, 0
   index: 1
 base_left
   rotate: false
-  xy: 100, 139
-  size: 19, 31
+  xy: 172, 2
+  size: 32, 32
   orig: 32, 32
-  offset: 6, 0
+  offset: 0, 0
   index: 2
 base_right
   rotate: false
-  xy: 29, 69
-  size: 19, 32
+  xy: 206, 2
+  size: 32, 32
   orig: 32, 32
-  offset: 7, 0
+  offset: 0, 0
   index: 0
 base_right
   rotate: false
-  xy: 50, 104
-  size: 19, 31
+  xy: 240, 2
+  size: 32, 32
   orig: 32, 32
-  offset: 7, 0
+  offset: 0, 0
   index: 1
 base_right
   rotate: false
-  xy: 50, 71
-  size: 19, 31
+  xy: 274, 2
+  size: 32, 32
   orig: 32, 32
-  offset: 7, 0
+  offset: 0, 0
   index: 2
 base_up
   rotate: false
-  xy: 29, 35
-  size: 23, 32
+  xy: 308, 2
+  size: 32, 32
   orig: 32, 32
-  offset: 5, 0
+  offset: 0, 0
   index: 0
 base_up
   rotate: false
-  xy: 56, 138
-  size: 21, 31
+  xy: 342, 2
+  size: 32, 32
   orig: 32, 32
-  offset: 6, 0
+  offset: 0, 0
   index: 1
 base_up
   rotate: false
-  xy: 71, 105
-  size: 21, 31
+  xy: 376, 2
+  size: 32, 32
   orig: 32, 32
-  offset: 6, 0
+  offset: 0, 0
   index: 2
 dman_down
   rotate: false
-  xy: 2, 170
-  size: 27, 32
+  xy: 410, 2
+  size: 32, 32
   orig: 32, 32
-  offset: 3, 0
+  offset: 0, 0
   index: 0
 dman_down
   rotate: false
-  xy: 2, 137
-  size: 26, 31
+  xy: 444, 2
+  size: 32, 32
   orig: 32, 32
-  offset: 4, 0
+  offset: 0, 0
   index: 1
 dman_down
   rotate: false
-  xy: 31, 171
-  size: 26, 31
+  xy: 478, 2
+  size: 32, 32
   orig: 32, 32
-  offset: 4, 0
+  offset: 0, 0
   index: 2
 dman_left
   rotate: false
-  xy: 59, 204
-  size: 25, 32
+  xy: 512, 2
+  size: 32, 32
   orig: 32, 32
-  offset: 3, 0
+  offset: 0, 0
   index: 0
 dman_left
   rotate: false
-  xy: 59, 171
-  size: 25, 31
+  xy: 546, 2
+  size: 32, 32
   orig: 32, 32
-  offset: 3, 0
+  offset: 0, 0
   index: 1
 dman_left
   rotate: false
-  xy: 2, 70
-  size: 25, 31
+  xy: 580, 2
+  size: 32, 32
   orig: 32, 32
-  offset: 3, 0
+  offset: 0, 0
   index: 2
 dman_right
   rotate: false
-  xy: 2, 103
-  size: 25, 32
+  xy: 614, 2
+  size: 32, 32
   orig: 32, 32
-  offset: 4, 0
+  offset: 0, 0
   index: 0
 dman_right
   rotate: false
-  xy: 2, 37
-  size: 25, 31
+  xy: 648, 2
+  size: 32, 32
   orig: 32, 32
-  offset: 4, 0
+  offset: 0, 0
   index: 1
 dman_right
   rotate: false
-  xy: 2, 4
-  size: 25, 31
+  xy: 682, 2
+  size: 32, 32
   orig: 32, 32
-  offset: 4, 0
+  offset: 0, 0
   index: 2
 dman_up
   rotate: false
-  xy: 31, 204
-  size: 26, 32
+  xy: 716, 2
+  size: 32, 32
   orig: 32, 32
-  offset: 3, 0
+  offset: 0, 0
   index: 0
 dman_up
   rotate: false
-  xy: 86, 205
-  size: 26, 31
+  xy: 750, 2
+  size: 32, 32
   orig: 32, 32
-  offset: 3, 0
+  offset: 0, 0
   index: 1
 dman_up
   rotate: false
-  xy: 86, 172
-  size: 26, 31
+  xy: 784, 2
+  size: 32, 32
   orig: 32, 32
-  offset: 3, 0
+  offset: 0, 0
   index: 2

@@ -79,7 +79,7 @@ public class MakeTextureAtlases {
     }
 
     TexturePacker.Settings settings = new TexturePacker.Settings();
-    settings.stripWhitespaceX = settings.stripWhitespaceY = true;
+    settings.stripWhitespaceX = settings.stripWhitespaceY = false;
     TexturePacker.process(settings, "./charsets_out", "../android/assets/graphics/charsets/", "charset");
   }
 }

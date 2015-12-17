@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector3;
 import macbury.indie.core.entities.EntityManager;
+import macbury.indie.core.map.TrixelMap;
 
 /**
  * In this screen player can move on map and interact with events, and fight monsters
@@ -18,6 +19,7 @@ public class GamePlayScreen extends ScreenBase {
 
   @Override
   public void preload() {
+    assets.load("maps:test.xml", TrixelMap.class);
     assets.load("charsets:charset.atlas", TextureAtlas.class);
     assets.load("textures:a.png", Texture.class);
     assets.load("textures:b.png", Texture.class);
@@ -75,6 +77,7 @@ public class GamePlayScreen extends ScreenBase {
     assets.unload("charsets:charset.png");
     assets.unload("textures:a.png");
     assets.unload("textures:b.png");
+    assets.unload("maps:test.xml");
     entities.dispose();
     camera = null;
   }
