@@ -4,6 +4,7 @@ import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
+import com.badlogic.gdx.ai.msg.MessageDispatcher;
 import com.badlogic.gdx.utils.Disposable;
 import macbury.indie.IndiE;
 import macbury.indie.core.Database;
@@ -17,11 +18,13 @@ import macbury.indie.core.entities.components.TileMovementComponent;
  */
 public class TileMovementSystem extends IteratingSystem implements Disposable {
   private static final String TAG                    = "TileMovementSystem";
+  private MessageDispatcher messages;
   private Database db;
 
   public TileMovementSystem(IndiE game) {
     super(Family.all(PositionComponent.class, TileMovementComponent.class).get());
     this.db = game.db;
+    this.messages = game.messages;
   }
 
   @Override
@@ -41,5 +44,6 @@ public class TileMovementSystem extends IteratingSystem implements Disposable {
   @Override
   public void dispose() {
     db = null;
+    messages = null;
   }
 }

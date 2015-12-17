@@ -25,7 +25,7 @@ public class EntityManager extends PooledEngine implements Disposable {
     super();
     this.game                = game;
     this.camera              = camera;
-    this.messages            = new MessageDispatcher();
+    this.messages            = game.messages;
     this.add                 = new EntityFactory(game, this, messages);
 
     setupSystems();
@@ -46,14 +46,7 @@ public class EntityManager extends PooledEngine implements Disposable {
   }
 
   @Override
-  public void update(float deltaTime) {
-    messages.update(deltaTime);
-    super.update(deltaTime);
-  }
-
-  @Override
   public void dispose() {
-    messages.clear();
     add.dispose();
     tileMovementSystem.dispose();
     characterRenderingSystem.dispose();
@@ -68,5 +61,29 @@ public class EntityManager extends PooledEngine implements Disposable {
     add                     = null;
     fsmSystem               = null;
     messages                = null;
+  }
+
+  /**
+   * Sets processing for non essential stuff
+   * @param process
+   */
+  private void setProcessingForGameplaySystems(boolean process) {
+    fsmSystem.setProcessing(process);
+    tileMovementSystem.setProcessing(process);
+    followCameraSystem.setProcessing(process);
+  }
+
+  /**
+   * Resume everything
+   */
+  public void resume() {
+    setProcessingForGameplaySystems(true);
+  }
+
+  /**
+   * Pause everything except rendering
+   */
+  public void pause() {
+    setProcessingForGameplaySystems(false);
   }
 }

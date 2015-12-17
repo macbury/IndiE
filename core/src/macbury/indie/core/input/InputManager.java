@@ -18,12 +18,15 @@ import macbury.indie.core.input.mappings.PS3DualShock;
  * any action button is pressed
  */
 public class InputManager implements InputProcessor, Disposable, ControllerListener {
-  private static final String TAG = "InputManager";
+  private static final String TAG               = "InputManager";
+  private static final float KEY_BUTTON_POWER   = 6F;
+  private static final float SLIGHTLY_KEY_POWER = 0.5F;
 
   private ObjectMap<Integer, ActionButton> keyBoardMappings;
   private ObjectMap<Integer, ActionButton> controllerMappings;
   private ObjectMap<ActionButton, Boolean> buttonActive;
   private Array<Listener> listeners;
+  private float movementKeyPower;
 
   public InputManager() {
     listeners          = new Array<Listener>();
@@ -38,6 +41,15 @@ public class InputManager implements InputProcessor, Disposable, ControllerListe
     configureKeyboard();
     configureController();
     Controllers.addListener(this);
+  }
+
+  public void update(float delta) {
+    if (isAnyMovementKeyActive()) {
+      movementKeyPower += KEY_BUTTON_POWER * delta;
+      movementKeyPower = Math.min(movementKeyPower, 1.0f);
+    } else {
+      movementKeyPower = 0;
+    }
   }
 
   private void configureController() {
@@ -95,6 +107,15 @@ public class InputManager implements InputProcessor, Disposable, ControllerListe
   public boolean isAnyMovementKeyActive() {
     return isActive(ActionButton.Left) || isActive(ActionButton.Right) || isActive(ActionButton.Up) || isActive(ActionButton.Down);
   }
+
+  public boolean isMovementKeyStronglyPressed() {
+    return isAnyMovementKeyActive() && movementKeyPower >= SLIGHTLY_KEY_POWER;
+  }
+
+  public boolean isMovementKeySlightlyPressed() {
+    return isAnyMovementKeyActive() && movementKeyPower <= SLIGHTLY_KEY_POWER;
+  }
+
 
   /**
    * Return current pressed {@link ActionButton}
@@ -248,12 +269,7 @@ public class InputManager implements InputProcessor, Disposable, ControllerListe
       triggerActionButtonUp(ActionButton.Right);
       triggerActionButtonDown(ActionButton.Left);
       return true;
-    } else {
-      triggerActionButtonUp(ActionButton.Left);
-      triggerActionButtonUp(ActionButton.Right);
-    }
-
-    if (controller.getAxis(axisYCode) >= 0.5) {
+    } else if (controller.getAxis(axisYCode) >= 0.5) {
       triggerActionButtonUp(ActionButton.Up);
       triggerActionButtonDown(ActionButton.Down);
       return true;
@@ -264,6 +280,8 @@ public class InputManager implements InputProcessor, Disposable, ControllerListe
     } else {
       triggerActionButtonUp(ActionButton.Up);
       triggerActionButtonUp(ActionButton.Down);
+      triggerActionButtonUp(ActionButton.Left);
+      triggerActionButtonUp(ActionButton.Right);
     }
 
     return false;

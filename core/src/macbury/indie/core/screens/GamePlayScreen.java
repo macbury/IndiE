@@ -1,6 +1,8 @@
 package macbury.indie.core.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -9,6 +11,8 @@ import com.badlogic.gdx.math.Vector3;
 import macbury.indie.core.entities.EntityManager;
 import macbury.indie.core.map.TrixelMap;
 
+import static com.badlogic.gdx.scenes.scene2d.actions.Actions.fadeIn;
+
 /**
  * In this screen player can move on map and interact with events, and fight monsters
  */
@@ -16,18 +20,18 @@ public class GamePlayScreen extends ScreenBase {
   private static final String TAG = "GamePlayScreen";
   private EntityManager entities;
   private OrthographicCamera camera;
+  private TrixelMap maps;
 
   @Override
   public void preload() {
     assets.load("maps:test.xml", TrixelMap.class);
     assets.load("charsets:charset.atlas", TextureAtlas.class);
-    assets.load("textures:a.png", Texture.class);
-    assets.load("textures:b.png", Texture.class);
   }
 
   @Override
   public void create() {
     this.camera             = new OrthographicCamera();
+    this.maps               = assets.get("maps:test.xml", TrixelMap.class);
     this.entities           = new EntityManager(game, camera);
 
     entities.add.monster(5,5);
@@ -36,15 +40,18 @@ public class GamePlayScreen extends ScreenBase {
 
   @Override
   public void show() {
-
   }
 
   @Override
   public void render(float delta) {
     camera.update();
-    Gdx.gl.glClearColor(0,0,0,0);
-    Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
+    maps.setView(camera);
+    maps.render();
     entities.update(delta);
+
+    if (Gdx.input.isKeyJustPressed(Input.Keys.E)) {
+      screens.switchTo(new TestScreen());
+    }
   }
 
   @Override
@@ -54,17 +61,17 @@ public class GamePlayScreen extends ScreenBase {
 
   @Override
   public void pause() {
-
+    entities.pause();
   }
 
   @Override
   public void resume() {
-
+    entities.resume();
   }
 
   @Override
   public boolean isDisposedAfterHide() {
-    return false;
+    return true;
   }
 
   @Override
@@ -74,9 +81,7 @@ public class GamePlayScreen extends ScreenBase {
 
   @Override
   public void dispose() {
-    assets.unload("charsets:charset.png");
-    assets.unload("textures:a.png");
-    assets.unload("textures:b.png");
+    assets.unload("charsets:charset.atlas");
     assets.unload("maps:test.xml");
     entities.dispose();
     camera = null;

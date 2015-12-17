@@ -40,7 +40,7 @@ public class EntityFactory implements Disposable {
     return builder.begin()
       .joystick()
       .position(tx, ty)
-      .tileMovement(2.8f, Direction.Down)
+      .tileMovement(TileMovementComponent.Speed.Normal, Direction.Down)
       .stateMachine(PlayerState.Idle)
       .characterAnimation("charset", "dman")
       .followCamera()
@@ -58,9 +58,9 @@ public class EntityFactory implements Disposable {
   public Entity monster(int tx, int ty) {
     return builder.begin()
       .position(tx, ty)
-      .tileMovement(2.8f, Direction.Down)
+      .tileMovement(TileMovementComponent.Speed.Slow, Direction.Down)
       .stateMachine(MonsterState.Idle)
-      .characterAnimation("charset", "base")
+      .characterAnimation("charset", "slime")
       .end();
   }
 
@@ -120,7 +120,7 @@ public class EntityFactory implements Disposable {
      * Creates tile movement component
      * @return
      */
-    private Builder tileMovement(float speed, Direction direction) {
+    private Builder tileMovement(TileMovementComponent.Speed speed, Direction direction) {
       TileMovementComponent tileMovementComponent = entityManager.createComponent(TileMovementComponent.class);
       tileMovementComponent.reset();
       tileMovementComponent.speed                 = speed;

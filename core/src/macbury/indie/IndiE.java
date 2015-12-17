@@ -3,17 +3,17 @@ package macbury.indie;
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.controllers.Controller;
-import com.badlogic.gdx.controllers.ControllerListener;
-import com.badlogic.gdx.controllers.Controllers;
-import com.badlogic.gdx.controllers.PovDirection;
+import com.badlogic.gdx.InputMultiplexer;
+import com.badlogic.gdx.ai.msg.MessageDispatcher;
 import com.badlogic.gdx.graphics.FPSLogger;
-import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import macbury.indie.core.Database;
 import macbury.indie.core.assets.Assets;
 import macbury.indie.core.input.InputManager;
 import macbury.indie.core.screens.GamePlayScreen;
 import macbury.indie.core.screens.ScreenManager;
+import macbury.indie.core.ui.UIManager;
 
 /**
  * Main game class that holds reference to all main modules;
@@ -37,51 +37,63 @@ public class IndiE extends ApplicationAdapter {
    * Manages game inputs
    */
   public InputManager input;
+  /**
+   * Message comunication class used by {@link macbury.indie.core.entities.EntityManager}
+   */
+  public MessageDispatcher messages;
+  public UIManager ui;
   private FPSLogger fpsLogger;
+
 
   @Override
   public void create () {
     Gdx.app.setLogLevel(Application.LOG_DEBUG);
     Gdx.app.log(TAG, "Init...");
-    this.fpsLogger = new FPSLogger();
-    this.screens = new ScreenManager(this);
-    this.db      = new Database();
-    this.assets  = new Assets();
-    this.input   = new InputManager();
 
-    screens.set(new GamePlayScreen());
+    this.messages   = new MessageDispatcher();
+    this.fpsLogger  = new FPSLogger();
+    this.screens    = new ScreenManager(this);
+    this.db         = new Database();
+    this.assets     = new Assets();
+    this.input      = new InputManager();
+    this.ui         = new UIManager();
 
-    Gdx.input.setInputProcessor(input);
+    Gdx.input.setInputProcessor(new InputMultiplexer(ui, input));
+
+    screens.switchTo(new GamePlayScreen());
   }
-
 
   @Override
   public void render () {
+    Gdx.gl.glClearColor(0,0,0,0);
+    Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
+
+    input.update(Gdx.graphics.getDeltaTime());
+    messages.update(Gdx.graphics.getDeltaTime());
+    screens.update();
+    ui.act();
+    ui.draw();
+
     fpsLogger.log();
-    screens._render();
   }
 
   @Override
   public void resize(int width, int height) {
-    super.resize(width, height);
     screens._resize(width, height);
   }
 
   @Override
   public void pause() {
-    super.pause();
     screens._pause();
   }
 
   @Override
   public void resume() {
-    super.resume();
     screens._resume();
   }
 
   @Override
   public void dispose() {
-    super.dispose();
     screens.dispose();
     assets.dispose();
     db.dispose();

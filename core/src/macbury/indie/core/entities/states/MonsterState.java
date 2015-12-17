@@ -3,11 +3,13 @@ package macbury.indie.core.entities.states;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.ai.fsm.State;
 import com.badlogic.gdx.ai.msg.Telegram;
+import macbury.indie.core.TelegramMessage;
 import macbury.indie.core.entities.Components;
 import macbury.indie.core.entities.components.FSMComponent;
 import macbury.indie.core.entities.components.JoystickComponent;
 import macbury.indie.core.entities.components.PositionComponent;
 import macbury.indie.core.entities.components.TileMovementComponent;
+import macbury.indie.core.entities.shared.Direction;
 
 /**
  * Created on 17.12.15.
@@ -28,7 +30,11 @@ public enum MonsterState implements State<Entity> {
 
     @Override
     public void update(Entity entity) {
-
+      TileMovementComponent tileMovement  = Components.TileMovement.get(entity);
+      PositionComponent position          = Components.Position.get(entity);
+      if (tileMovement.finishedMoving()) {
+        tileMovement.moveInDirection(position, Direction.random());
+      }
     }
 
     @Override

@@ -17,4 +17,15 @@ public enum Direction {
     this.vector = direction;
   }
 
+  /**
+   * Returns random direction
+   * @return
+   */
+  public static Direction random() {
+    Direction direction = Direction.values()[(int)(Math.random() * Direction.values().length - 1)];
+    if (direction == None) {
+      direction = random();
+    }
+    return direction;
+  }
 }

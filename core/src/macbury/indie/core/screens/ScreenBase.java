@@ -1,8 +1,11 @@
 package macbury.indie.core.screens;
 
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Disposable;
 import macbury.indie.IndiE;
 import macbury.indie.core.assets.Assets;
+import macbury.indie.core.input.InputManager;
+import macbury.indie.core.ui.UIManager;
 
 /** <p>
  * Represents one of many application screens, such as a main menu, a settings menu, the game screen and so on.
@@ -11,9 +14,11 @@ import macbury.indie.core.assets.Assets;
  * Note that {@link #dispose()} is not called automatically.
  * </p>*/
 public abstract class ScreenBase implements Disposable {
-  private boolean initialized;
   protected IndiE game;
   protected Assets assets;
+  protected UIManager ui;
+  protected ScreenManager screens;
+  protected InputManager input;
 
   /**
    * Links references to current {@link IndiE}
@@ -23,14 +28,20 @@ public abstract class ScreenBase implements Disposable {
     this.unlink();
     this.game     = game;
     this.assets   = game.assets;
+    this.ui       = game.ui;
+    this.screens  = game.screens;
+    this.input    = game.input;
   }
 
   /**
    * Unlink references to current {@link IndiE}
    */
   public void unlink() {
-    this.game   = null;
-    this.assets = null;
+    this.game     = null;
+    this.assets   = null;
+    this.ui       = null;
+    this.screens  = null;
+    this.input    = null;
   }
 
   /**
@@ -67,12 +78,4 @@ public abstract class ScreenBase implements Disposable {
    */
   public abstract void hide ();
 
-
-  public boolean isInitialized() {
-    return initialized;
-  }
-
-  public void setInitialized(boolean initialized) {
-    this.initialized = initialized;
-  }
 }

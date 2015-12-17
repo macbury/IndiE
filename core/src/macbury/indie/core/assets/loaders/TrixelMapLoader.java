@@ -31,10 +31,8 @@ public class TrixelMapLoader extends AsynchronousAssetLoader<TrixelMap, TrixelMa
     try {
       root     = xml.parse(file);
       this.map = new TrixelMap(root.getInt("width"), root.getInt("height"));
-      Thread.sleep(5000);
+
     } catch (IOException e) {
-      e.printStackTrace();
-    } catch (InterruptedException e) {
       e.printStackTrace();
     } finally {
       root = null;
@@ -43,15 +41,19 @@ public class TrixelMapLoader extends AsynchronousAssetLoader<TrixelMap, TrixelMa
 
   @Override
   public TrixelMap loadSync(AssetManager manager, String fileName, FileHandle file, Parameters parameter) {
-    TrixelMap currentMap = map;
-    map = null;
+    TrixelMap currentMap  = map;
+    map                   = null;
     return currentMap;
   }
 
   @Override
   public Array<AssetDescriptor> getDependencies(String fileName, FileHandle file, Parameters parameter) {
-    return null;
+    Array<AssetDescriptor> deps = new Array();
+    deps.add(new AssetDescriptor("textures:a.png", Texture.class));
+    deps.add(new AssetDescriptor("textures:b.png", Texture.class));
+    return deps;
   }
+
 
   public static class Parameters extends AssetLoaderParameters<TrixelMap> {
 

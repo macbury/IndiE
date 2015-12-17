@@ -1,10 +1,8 @@
 package macbury.indie.core.entities.systems;
 
-import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ai.msg.MessageDispatcher;
 import com.badlogic.gdx.ai.msg.Telegram;
 import com.badlogic.gdx.ai.msg.Telegraph;
@@ -18,7 +16,7 @@ import macbury.indie.core.entities.Components;
 import macbury.indie.core.entities.components.CharacterAnimationComponent;
 import macbury.indie.core.entities.components.PositionComponent;
 import macbury.indie.core.entities.components.TileMovementComponent;
-import macbury.indie.core.entities.states.TelegramMessage;
+import macbury.indie.core.TelegramMessage;
 import macbury.indie.core.utils.UnitUtil;
 
 /**
