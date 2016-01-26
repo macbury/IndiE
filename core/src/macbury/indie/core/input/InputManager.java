@@ -19,8 +19,7 @@ import macbury.indie.core.input.mappings.PS3DualShock;
  */
 public class InputManager implements InputProcessor, Disposable, ControllerListener {
   private static final String TAG               = "InputManager";
-  private static final float KEY_BUTTON_POWER   = 6F;
-  private static final float SLIGHTLY_KEY_POWER = 0.5F;
+  private static final float SLIGHTLY_KEY_POWER = 0.1F;
 
   private ObjectMap<Integer, ActionButton> keyBoardMappings;
   private ObjectMap<Integer, ActionButton> controllerMappings;
@@ -45,7 +44,7 @@ public class InputManager implements InputProcessor, Disposable, ControllerListe
 
   public void update(float delta) {
     if (isAnyMovementKeyActive()) {
-      movementKeyPower += KEY_BUTTON_POWER * delta;
+      movementKeyPower += delta;
       movementKeyPower = Math.min(movementKeyPower, 1.0f);
     } else {
       movementKeyPower = 0;

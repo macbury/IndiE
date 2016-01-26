@@ -18,7 +18,6 @@ public enum ScreenState implements State<ScreenManager> {
     @Override
     public void enter(ScreenManager screenManager) {
       final ScreenManager sm = screenManager;
-      sm._pause();
       if (sm.getCurrentScreen() == null) {
         sm.getStateMachine().changeState(ScreenState.LoadNextScreen);
       } else {
@@ -67,7 +66,6 @@ public enum ScreenState implements State<ScreenManager> {
     public void enter(ScreenManager screenManager) {
       final ScreenManager sm = screenManager;
       screenManager.showAndResizeCurrentScreen();
-      screenManager._resume();
       screenManager.game.ui.fadeOutScreen().addAction(run(new Runnable() {
         @Override
         public void run() {

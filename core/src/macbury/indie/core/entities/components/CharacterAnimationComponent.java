@@ -1,7 +1,6 @@
 package macbury.indie.core.entities.components;
 
 import com.badlogic.ashley.core.Component;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -9,7 +8,7 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.Pool;
-import macbury.indie.core.CharacterAnimationSpeed;
+import macbury.indie.core.entities.CharacterAnimationSpeed;
 import macbury.indie.core.entities.shared.Direction;
 
 /**

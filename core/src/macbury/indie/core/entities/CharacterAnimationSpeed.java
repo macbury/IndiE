@@ -1,4 +1,4 @@
-package macbury.indie.core;
+package macbury.indie.core.entities;
 
 /**
  * Created on 10.12.15.

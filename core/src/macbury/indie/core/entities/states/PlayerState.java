@@ -12,6 +12,12 @@ import macbury.indie.core.input.ActionButton;
  * This enum have all logic for moving and attacking player
  */
 public enum PlayerState implements State<Entity> {
+
+  Immobile,
+
+  /**
+   * Wait for player input
+   */
   Idle {
     @Override
     public void update(Entity entity) {
@@ -29,6 +35,9 @@ public enum PlayerState implements State<Entity> {
     }
   },
 
+  /**
+   * State in which player moves
+   */
   Moving {
     @Override
     public void enter(Entity entity) {
@@ -57,14 +66,20 @@ public enum PlayerState implements State<Entity> {
     }
   },
 
+  /**
+   * In this state its decided if player attack or interact with envirmoment
+   */
   DoAction {
     @Override
     public void update(Entity entity) {
       FSMComponent fsm              = Components.FSM.get(entity);
       JoystickComponent joystick    = Components.Joystick.get(entity);
 
-      if (!joystick.input.isAnyMovementKeyActive()) {
+      if (!joystick.input.isActive(ActionButton.DoAction)) {
         fsm.changeState(PlayerState.Idle);
+      } else if (joystick.input.isAnyMovementKeyActive()) {
+        TileMovementComponent tileMovement = Components.TileMovement.get(entity);
+        tileMovement.direction             = joystick.input.getDirectionAction().toDirection();
       }
     }
   };

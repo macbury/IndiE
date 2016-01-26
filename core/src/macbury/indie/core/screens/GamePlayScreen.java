@@ -40,6 +40,7 @@ public class GamePlayScreen extends ScreenBase {
 
   @Override
   public void show() {
+    entities.resume();
   }
 
   @Override
@@ -48,10 +49,6 @@ public class GamePlayScreen extends ScreenBase {
     maps.setView(camera);
     maps.render();
     entities.update(delta);
-
-    if (Gdx.input.isKeyJustPressed(Input.Keys.E)) {
-      screens.switchTo(new TestScreen());
-    }
   }
 
   @Override
@@ -61,12 +58,12 @@ public class GamePlayScreen extends ScreenBase {
 
   @Override
   public void pause() {
-    entities.pause();
+
   }
 
   @Override
   public void resume() {
-    entities.resume();
+
   }
 
   @Override
@@ -76,7 +73,7 @@ public class GamePlayScreen extends ScreenBase {
 
   @Override
   public void hide() {
-
+    entities.pause();
   }
 
   @Override
